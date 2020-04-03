@@ -1,18 +1,16 @@
 # carousel-commute-schools
 
-*Searches by address will be performed on the first matching address found in the database. To ensure you receive accurate information, it is advisable to include at least a street address and a postal code*
-
->Addresses in the sample responses below after the first entry are truncated.
-
 # **READ - Read House Data**
 Intention | Request Type | Request URL | Sample Request Body | Sample Resonse Body
 ------------ | ------------ | ------------ | ------------ | ------------ |
-Get info about House by address | GET | /api/carouselHouses/ | {address: '123 Kings Way', postal_code: 30236} | {house_id: 1, address: '123 Kings Way', address2: 'Apt 1', address3: '', address4: '', city_locality: 'Springfield', state_province: 'KY', postal_code: 30236, country: 'US', images: 12}
-Get info about House by house_id | GET | /api/carouselHouses/1 | NA | ''
-Get an array of image urls for a House | GET | /api/carouselHouses/images | {address: '123 Kings Way', postal_code: 30236} | {house_id: 1, image_urls: [{image_id: 1, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img1.jpg'}, ..., {image_id: 12, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img12.jpg'}]}
-'' | GET | /api/carouselHouses/1/images | NA | ''
-Get a specific image URL | GET | /api/carouselHouses/images/1 | {address: '123 Kings Way', postal_code: 30236} | {image_urls: ['http://abound-carousel-1.s3.amazonaws.com/house1img1.jpg']}
-'' | GET | /api/carouselHouses/1/images/1 | NA | ''
+Get info about House by address | GET | /api/carousel/houses?address=123+Kings+Way&postal_code=30236 | NA | {house_id: 1, address: '123 Kings Way', address2: 'Apt 1', address3: '', address4: '', city_locality: 'Springfield', state_province: 'KY', postal_code: 30236, country: 'US', images: 12}
+Get info about House by house_id | GET | /api/carousel/houses/1 | '' | ''
+Get an array of image urls for a House | GET | /api/carousel/houses/1/images | '' | {house_id: 1, image_urls: [{image_id: 1, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img1.jpg'}, ..., {image_id: 12, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img12.jpg'}]}
+Get a specific image URL | GET | /api/carousel/houses/1/images/1 | '' | {image_urls: ['http://abound-carousel-1.s3.amazonaws.com/house1img1.jpg']}
+
+*Searches by address will be performed on the first matching address found in the database. To ensure you receive accurate information, it is advisable to include at least a street address and a postal code*
+
+>Addresses in the sample responses below after the first entry are truncated.
 
 *Response codes:*  
 *success: 200*  
@@ -25,9 +23,8 @@ Get a specific image URL | GET | /api/carouselHouses/images/1 | {address: '123 K
 # **CREATE - Add New House Data**
 Intention | Request Type | Request URL | Sample Request Body | Sample Resonse Body
 ------------ | ------------ | ------------ | ------------ | ------------ |
-Create a new House record | POST | /api/carouselHouses/ | {address: '313 Radiance Rd', ..., image_urls: ['https://i.imgur.com/EqjOtzC.jpg'] | {house_id: 12181104,  address: '313 Radiance Rd', images: 1}
-Add a new image to a House record by address | POST | /api/carouselHouses/ | {address: '313 Radiance Rd' postal_code: 91387, image_urls: ['https://i.imgur.com/jXBJSDC.jpg']} | {house_id: 12181104, image_urls: [{image_id: 1, image_url: 'https://i.imgur.com/EqjOtzC.jpg'}, {image_id: 2, image_url:'https://i.imgur.com/jXBJSDC.jpg'}]}
-Add a new image to a House record by house_id | POST | /api/carouselHouses/12181104 | {image_urls: ['https://i.imgur.com/jXBJSDC.jpg']} | ''
+Create a new House record | POST | /api/carousel/houses/ | {address: '313 Radiance Rd', ..., image_urls: ['https://i.imgur.com/EqjOtzC.jpg'] | {house_id: 12181104,  address: '313 Radiance Rd', images: 1}
+Add images to a House record | POST | /api/carousel/houses/12181104/images | {image_urls: ['https://i.imgur.com/jXBJSDC.jpg']} | {house_id: 12181104, image_urls: [{image_id: 1, image_url: 'https://i.imgur.com/EqjOtzC.jpg'}, {image_id: 2, image_url:'https://i.imgur.com/jXBJSDC.jpg'}]}
 
 *Response codes:*  
 *success: 201*  
@@ -36,9 +33,9 @@ Add a new image to a House record by house_id | POST | /api/carouselHouses/12181
 # **UPDATE - Edit House Data**
 Intention | Request Type | Request URL | Sample Request Body | Sample Resonse Body
 ------------ | ------------ | ------------ | ------------ | ------------ |
-Overwrite an existing House entry | PUT | /api/carouselHouses/12181104 | {address: '422 Bonds Ave', ... images: ['https://i.imgur.com/Sp5hGfv.jpg']} | {house_id: 12181104, address: '422 Bonds Ave', ..., images: 1}
-Update an existing House entry | PATCH | /api/carouselHouses/12181104 | {address: '422 Smith Way'} | {house_id: 12181104, address: '422 Smith Way', ..., images: 1}
-Update an existing House image entry | PATCH | /api/carouselHouses/12181104/1 | {image_url: 'http://abound-carousel-1.s3.amazonaws.com/house12181104img1.jpg'} | {image_id: 1, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house12181104img1.jpg'}
+Overwrite an existing House entry | PUT | /api/carousel/houses/12181104 | {address: '422 Bonds Ave', ... images: ['https://i.imgur.com/Sp5hGfv.jpg']} | {house_id: 12181104, address: '422 Bonds Ave', ..., images: 1}
+Update an existing House entry | PATCH | /api/carousel/houses/12181104 | {address: '422 Smith Way'} | {house_id: 12181104, address: '422 Smith Way', ..., images: 1}
+Update an existing House image entry | PATCH | /api/carousel/houses/12181104/images/1 | {image_url: 'http://abound-carousel-1.s3.amazonaws.com/house12181104img1.jpg'} | {image_id: 1, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house12181104img1.jpg'}
 
 
 *Response codes:*  
@@ -49,8 +46,8 @@ Update an existing House image entry | PATCH | /api/carouselHouses/12181104/1 | 
 
 Intention | Request Type | Request URL | Sample Request Body | Sample Resonse Body
 ------------ | ------------ | ------------ | ------------ | ------------ |
-Delete a House entry | DELETE | /api/carouselHouses/1 | NA | NA
-Delete a House image entry | DELETE | /api/carouselHouses/12181104/images/1 | NA | {house_id: 1, image_urls: [{image_id: 2, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img2.jpg'}, ..., {image_id: 12, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img12.jpg'}]}
+Delete a House entry | DELETE | /api/carousel/houses/1 | NA | NA
+Delete a House image entry | DELETE | /api/carousel/houses/12181104/images/1 | NA | {house_id: 1, image_urls: [{image_id: 2, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img2.jpg'}, ..., {image_id: 12, image_url: 'http://abound-carousel-1.s3.amazonaws.com/house1img12.jpg'}]}
 
 *Response codes:*  
 *success: 200*  
